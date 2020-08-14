@@ -230,17 +230,23 @@
         <Hero />
       </div>
     </div>
-    <section class="relative">
-      <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <h1>{{ person.fields.name }}</h1>
-        <!-- render blog posts -->
-        <ul>
-          <li v-for="post in posts">
-            {{ post.fields.title }}
-          </li>
-        </ul>
-      </div>
-    </section>
+    <div class="container">
+      <h1 class="title">Paw Waves</h1>
+      <section v-for="post in posts" :key="post.fields.slug">
+        <div
+          class="image"
+          :style="`background: url(https:${post.fields.heroImage.fields.file.url}) center center no-repeat`"
+        ></div>
+        <h2 class="title">
+          <nuxt-link :to="post.fields.slug">{{ post.fields.title }}</nuxt-link>
+        </h2>
+        <p class="author">By {{ post.fields.author.fields.name }}</p>
+        <p class="description">
+          {{ post.fields.description }}<br />
+          <nuxt-link :to="post.fields.slug" class="more">Read more ⟶</nuxt-link>
+        </p>
+      </section>
+    </div>
   </div>
 </template>
 
@@ -259,16 +265,6 @@ export default {
   },
   directives: {
     clickOutside: vClickOutside.directive,
-  },
-  data() {
-    return {
-      isOpen: false,
-    };
-  },
-  methods: {
-    toggle() {
-      this.isOpen = !this.isOpen;
-    },
   },
   // `env` is available in the context object
   asyncData({ env }) {
@@ -292,6 +288,24 @@ export default {
         };
       })
       .catch(console.error);
+  },
+  data() {
+    return {
+      isOpen: false,
+    };
+  },
+  computed: {
+    posts() {
+      return this.$store.state.posts;
+    },
+  },
+  methods: {
+    toggle() {
+      this.isOpen = !this.isOpen;
+    },
+  },
+  head: {
+    title: "Paw Waves, Latest Posts",
   },
 };
 </script>

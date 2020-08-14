@@ -1,16 +1,17 @@
 import i18n from "./config/i18n";
-const config = require("./.contentful.json");
+import dotenv from "dotenv";
+dotenv.config();
 
 export default {
   /*
    ** Nuxt.js modules
    */
   env: {
-    CTF_SPACE_ID: config.CTF_SPACE_ID,
-    CTF_CDA_ACCESS_TOKEN: config.CTF_CDA_ACCESS_TOKEN,
-    CTF_PERSON_ID: config.CTF_PERSON_ID,
-    CTF_BLOG_POST_TYPE_ID: config.CTF_BLOG_POST_TYPE_ID,
+    CONTENTFUL_SPACE: process.env.CONTENTFUL_SPACE,
+    CONTENTFUL_ACCESSTOKEN: process.env.CONTENTFUL_ACCESSTOKEN,
+    CONTENTFUL_ENVIRONMENT: process.env.CONTENTFUL_ENVIRONMENT,
   },
+  plugins: ["~/plugins/contentful", "~/plugins/posts"],
   module: {
     rules: [
       {
